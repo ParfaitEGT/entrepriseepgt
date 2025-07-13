@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin | Service EPGT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user) => {
+          const url = new URL(window.location.href);
+          const tokenMatch = url.hash.match(/invite_token=([^&]+)/);
+
+          // Si l'utilisateur n'est pas connecté et qu'un token d'invitation existe
+          if (!user && tokenMatch && tokenMatch[1]) {
+            window.netlifyIdentity.acceptInvite({ invite_token: tokenMatch[1] })
+              .then(() => {
+                console.log("Invitation acceptée. Redirection vers /admin/");
+                window.location.href = "/admin/";
+              })
+              .catch((err) => console.error("Erreur d’invitation :", err));
+          }
+
+          // Si l'utilisateur se connecte
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+
+        // N'oublie pas cette ligne, elle est cruciale
+        window.netlifyIdentity.init();
+      }
+    </script>
+  </body>
+</html>
