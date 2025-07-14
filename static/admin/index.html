@@ -2,35 +2,41 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Admin | Netlify CMS</title>
+    <title>Admin | Service EPGT</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <!-- Netlify Identity & CMS -->
+    <!-- Scripts Netlify CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
+      // Initialisation Netlify Identity
       if (window.netlifyIdentity) {
-        // Gérer le token d'invitation depuis l'URL
-        const url = new URL(window.location.href);
-        const inviteToken = url.hash.match(/invite_token=([^&]+)/);
-
         window.netlifyIdentity.on("init", (user) => {
-          if (!user && inviteToken && inviteToken[1]) {
-            window.netlifyIdentity
-              .acceptInvite({ invite_token: inviteToken[1] })
-              .then(() => {
-                console.log("✅ Invitation acceptée. Redirection...");
-                window.location.href = "/admin/";
-              })
-              .catch((err) => {
-                console.error("❌ Erreur d'invitation :", err);
-              });
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
           }
         });
 
-        window.netlifyIdentity.init();
+        // ✅ Gérer le lien d'invitation Netlify CMS (invite_token)
+        const url = new URL(window.location.href);
+        const hash = url.hash || '';
+        const match = hash.match(/invite_token=([^&]+)/);
+        if (match && match[1]) {
+          window.netlifyIdentity.acceptInvite({ invite_token: match[1] })
+            .then(() => {
+              console.log("✅ Invitation acceptée, redirection vers /admin/");
+              window.location.href = "/admin/";
+            })
+            .catch((err) => {
+              console.error("❌ Erreur d’invitation :", err);
+              alert("Erreur lors de l'invitation. Le lien est peut-être expiré ou invalide.");
+            });
+        }
       }
     </script>
   </body>
