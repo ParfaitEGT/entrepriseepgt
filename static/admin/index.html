@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
+    <!-- Scripts Netlify CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
+      // Initialisation Netlify Identity
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", (user) => {
           if (!user) {
@@ -20,7 +22,7 @@
           }
         });
 
-        // ✅ Gérer automatiquement l'invitation via l'URL
+        // ✅ Gérer le lien d'invitation Netlify CMS (invite_token)
         const url = new URL(window.location.href);
         const hash = url.hash || '';
         const match = hash.match(/invite_token=([^&]+)/);
@@ -32,7 +34,7 @@
             })
             .catch((err) => {
               console.error("❌ Erreur d’invitation :", err);
-              alert("Erreur lors de l'invitation. Le lien est peut-être expiré.");
+              alert("Erreur lors de l'invitation. Le lien est peut-être expiré ou invalide.");
             });
         }
       }
