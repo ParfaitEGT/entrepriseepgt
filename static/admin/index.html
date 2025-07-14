@@ -1,25 +1,41 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <title>Administration - Netlify CMS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <title>Admin | Service EPGT</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <!-- L'interface de Netlify CMS va s'afficher ici -->
-    <script>
-      // Configuration nécessaire pour que Git Gateway fonctionne avec les invitations
-      window.CMS_MANUAL_INIT = true;
-    </script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
-    <!-- Importation du script CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
-
-    <!-- Initialisation manuelle avec authentification Git Gateway -->
     <script>
-      NetlifyCmsApp.init({
-        config: "/admin/config.yml"
-      });
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user) => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+
+        // ✅ Gérer automatiquement l'invitation via l'URL
+        const url = new URL(window.location.href);
+        const hash = url.hash || '';
+        const match = hash.match(/invite_token=([^&]+)/);
+        if (match && match[1]) {
+          window.netlifyIdentity.acceptInvite({ invite_token: match[1] })
+            .then(() => {
+              console.log("✅ Invitation acceptée, redirection vers /admin/");
+              window.location.href = "/admin/";
+            })
+            .catch((err) => {
+              console.error("❌ Erreur d’invitation :", err);
+              alert("Erreur lors de l'invitation. Le lien est peut-être expiré.");
+            });
+        }
+      }
     </script>
   </body>
 </html>
