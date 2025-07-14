@@ -7,37 +7,41 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Chargement de Netlify Identity et CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      // Gestion automatique du lien d'invitation
-      const url = new URL(window.location.href);
-      const inviteToken = url.hash.match(/invite_token=([^&]+)/);
+      function extractToken() {
+        const hash = window.location.hash;
+        const match = hash.match(/invite_token=([^&]+)/);
+        return match ? match[1] : null;
+      }
 
-      if (inviteToken && inviteToken[1]) {
-        console.log("Invitation détectée. Traitement en cours...");
-        window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
-          .then(() => {
-            console.log("Invitation acceptée. Ouverture du widget...");
-            window.netlifyIdentity.open();
-          })
-          .catch((err) => {
-            console.error("Erreur lors de l'acceptation de l'invitation :", err);
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.netlifyIdentity) {
+          const inviteToken = extractToken();
+
+          window.netlifyIdentity.on("init", (user) => {
+            if (!user) {
+              if (inviteToken) {
+                window.netlifyIdentity.acceptInvite({ invite_token: inviteToken })
+                  .then(() => {
+                    console.log("✅ Invitation acceptée");
+                    window.netlifyIdentity.open(); // Ouvre la modale pour finaliser l'inscription
+                  })
+                  .catch((err) => {
+                    console.error("❌ Erreur d’invitation :", err);
+                    alert("Erreur lors de l’activation de l’invitation.");
+                  });
+              } else {
+                window.netlifyIdentity.open(); // Ouvre la modale normale
+              }
+            }
           });
-      }
 
-      // Gestion de l'authentification
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
+          window.netlifyIdentity.init();
+        }
+      });
     </script>
   </body>
 </html>
