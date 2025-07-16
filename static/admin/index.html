@@ -7,34 +7,32 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Netlify Identity & CMS -->
+    <!-- Scripts Netlify Identity + CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      const url = new URL(window.location.href);
-      const inviteTokenMatch = url.hash.match(/invite_token=([^&]+)/);
-
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", (user) => {
-          if (!user && inviteTokenMatch && inviteTokenMatch[1]) {
-            const inviteToken = inviteTokenMatch[1];
+          if (!user) {
+            // Vérifie s'il y a un token d'invitation
+            const url = new URL(window.location.href);
+            const inviteToken = url.hash.match(/invite_token=([^&]+)/);
 
-            window.netlifyIdentity
-              .acceptInvite({ invite_token: inviteToken })
-              .then(() => {
-                console.log("✅ Invitation acceptée.");
-                // Ouvre le modal pour que l'utilisateur définisse un mot de passe
-                window.netlifyIdentity.open("signup");
-              })
-              .catch((err) => {
-                console.error("❌ Erreur d’invitation :", err);
+            if (inviteToken && inviteToken[1]) {
+              window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
+                .then(() => {
+                  console.log("Invitation acceptée !");
+                  window.netlifyIdentity.open("signup");
+                })
+                .catch((err) => {
+                  console.error("Erreur d’invitation :", err);
+                });
+            } else {
+              window.netlifyIdentity.on("login", () => {
+                document.location.href = "/admin/";
               });
-          } else if (!user) {
-            // Si pas d’invitation, mode normal
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
+            }
           }
         });
       }
