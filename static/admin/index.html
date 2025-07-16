@@ -7,44 +7,41 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Chargement des scripts Netlify -->
+    <!-- Chargement des scripts Netlify Identity et CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-
-        // Gérer automatiquement l'invitation via le lien
+      function extractInviteToken() {
         const url = new URL(window.location.href);
-        const inviteToken = url.hash.match(/invite_token=([^&]+)/);
-        if (inviteToken && inviteToken[1]) {
-          window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
-            .then(() => {
-              console.log("Invitation acceptée.");
-              window.netlifyIdentity.open();
-            })
-            .catch((err) => {
-              console.error("Erreur lors de l'invitation :", err);
-            });
-        }
+        const match = url.hash.match(/invite_token=([^&]+)/);
+        return match ? match[1] : null;
+      }
 
-        // Forcer ouverture du formulaire d'inscription si aucun utilisateur
-        document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.netlifyIdentity) {
+          const inviteToken = extractInviteToken();
+
           window.netlifyIdentity.on("init", (user) => {
             if (!user) {
-              window.netlifyIdentity.open("signup");
+              if (inviteToken) {
+                window.netlifyIdentity.acceptInvite({ invite_token: inviteToken })
+                  .then(() => window.netlifyIdentity.open())
+                  .catch((err) => console.error("Erreur invitation :", err));
+              } else {
+                // Pas d'invitation, ouvrir formulaire d'inscription
+                window.netlifyIdentity.open("signup");
+              }
             }
           });
+
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+
           window.netlifyIdentity.init();
-        });
-      }
+        }
+      });
     </script>
   </body>
 </html>
