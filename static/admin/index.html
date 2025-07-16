@@ -26,5 +26,20 @@
         });
       }
     </script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", (user) => {
+        if (!user) {
+          // Forcer ouverture de la boîte d'inscription si aucun utilisateur
+          window.netlifyIdentity.open('signup');
+        }
+      });
+
+      // Initialisation du widget
+      window.netlifyIdentity.init();
+    }
+  });
+    </script>
   </body>
     </html>
