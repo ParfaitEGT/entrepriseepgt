@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Scripts Netlify Identity + CMS -->
+    <!-- Scripts Netlify Identity et Netlify CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
@@ -15,27 +15,16 @@
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", (user) => {
           if (!user) {
-            // Vérifie s'il y a un token d'invitation
-            const url = new URL(window.location.href);
-            const inviteToken = url.hash.match(/invite_token=([^&]+)/);
+            // Ouvre le formulaire d'inscription (signup) au lieu de login
+            window.netlifyIdentity.open("signup");
 
-            if (inviteToken && inviteToken[1]) {
-              window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
-                .then(() => {
-                  console.log("Invitation acceptée !");
-                  window.netlifyIdentity.open("signup");
-                })
-                .catch((err) => {
-                  console.error("Erreur d’invitation :", err);
-                });
-            } else {
-              window.netlifyIdentity.on("login", () => {
-                document.location.href = "/admin/";
-              });
-            }
+            // Une fois connecté, redirige vers l’admin
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
           }
         });
       }
     </script>
   </body>
-</html>
+    </html>
