@@ -1,16 +1,14 @@
 backend:
   name: git-gateway
   branch: main
-  repo: ParfaitEGT/siteepgteleventy
-  site_domain: siteepgteleventy.netlify.app
 
 site_url: https://siteepgteleventy.netlify.app
 local_backend: true
 
-locale: 'fr'
-
 media_folder: "images"
 public_folder: "/images"
+
+locale: 'fr'
 
 collections:
   - name: "articles"
@@ -19,9 +17,15 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Titre", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Contenu", name: "body", widget: "markdown" }
+      - label: "Titre"
+        name: "title"
+        widget: "string"
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+      - label: "Contenu"
+        name: "body"
+        widget: "markdown"
 
   - name: "accueil"
     label: "Page d'accueil"
@@ -30,7 +34,15 @@ collections:
         name: "contenu_accueil"
         file: "content/accueil.md"
         fields:
-          - { label: "Titre principal", name: "titre", widget: "string" }
-          - { label: "Sous-titre", name: "sous_titre", widget: "string" }
-          - { label: "Texte de présentation", name: "presentation", widget: "text" }
-          - { label: "Texte du bouton", name: "texte_bouton", widget: "string" }
+          - label: "Titre principal"
+            name: "titre"
+            widget: "string"
+          - label: "Sous-titre"
+            name: "sous_titre"
+            widget: "string"
+          - label: "Texte de présentation"
+            name: "presentation"
+            widget: "text"
+          - label: "Texte du bouton"
+            name: "texte_bouton"
+            widget: "string"
