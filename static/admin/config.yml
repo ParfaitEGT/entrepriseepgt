@@ -6,6 +6,7 @@ backend:
 
 site_url: https://siteepgteleventy.netlify.app
 local_backend: true
+
 locale: 'fr'
 
 media_folder: "images"
