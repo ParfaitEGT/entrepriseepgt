@@ -1,9 +1,10 @@
 backend:
   name: git-gateway
-  branch: main  # ou 'master' si ton repo utilise encore master
+  branch: main
   repo: ParfaitEGT/siteepgteleventy
   site_domain: siteepgteleventy.netlify.app
 
+site_url: https://siteepgteleventy.netlify.app
 local_backend: true
 
 locale: 'fr'
