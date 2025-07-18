@@ -1,3 +1,4 @@
+<!-- static/admin/index.html -->
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -7,12 +8,11 @@
     <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Netlify Identity & CMS scripts -->
+    <!-- Scripts Netlify Identity et CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      // Initialisation du widget Identity
       document.addEventListener("DOMContentLoaded", function () {
         const identity = window.netlifyIdentity;
 
@@ -23,10 +23,9 @@
 
         identity.on("init", (user) => {
           if (!user) {
-            // Si aucun utilisateur, ouvrir directement le formulaire d'inscription
+            // Si aucun utilisateur, forcer le formulaire d'inscription
             identity.open("signup");
           } else {
-            // Si connecté, rediriger vers l'interface CMS
             document.location.href = "/admin/";
           }
         });
@@ -35,7 +34,7 @@
           document.location.href = "/admin/";
         });
 
-        // Pour accepter automatiquement une invitation (optionnel)
+        // Acceptation automatique des invitations
         const url = new URL(window.location.href);
         const inviteToken = url.hash.match(/invite_token=([^&]+)/);
         if (inviteToken && inviteToken[1]) {
@@ -48,4 +47,4 @@
       });
     </script>
   </body>
-</html>           
+</html>
