@@ -4,47 +4,48 @@
     <meta charset="UTF-8" />
     <title>Admin | Service EPGT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Chargement des scripts Netlify -->
+    <!-- Netlify Identity & CMS scripts -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
+      // Initialisation du widget Identity
+      document.addEventListener("DOMContentLoaded", function () {
+        const identity = window.netlifyIdentity;
+
+        if (!identity) {
+          console.error("Netlify Identity non chargé.");
+          return;
+        }
+
+        identity.on("init", (user) => {
           if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
+            // Si aucun utilisateur, ouvrir directement le formulaire d'inscription
+            identity.open("signup");
+          } else {
+            // Si connecté, rediriger vers l'interface CMS
+            document.location.href = "/admin/";
           }
         });
 
-        // Gérer automatiquement l'invitation via le lien
+        identity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+
+        // Pour accepter automatiquement une invitation (optionnel)
         const url = new URL(window.location.href);
         const inviteToken = url.hash.match(/invite_token=([^&]+)/);
         if (inviteToken && inviteToken[1]) {
-          window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
-            .then(() => {
-              console.log("Invitation acceptée.");
-              window.netlifyIdentity.open();
-            })
-            .catch((err) => {
-              console.error("Erreur lors de l'invitation :", err);
-            });
+          identity.acceptInvite({ invite_token: inviteToken[1] })
+            .then(() => identity.open())
+            .catch((err) => console.error("Erreur d'invitation :", err));
         }
 
-        // Forcer ouverture du formulaire d'inscription si aucun utilisateur
-        document.addEventListener("DOMContentLoaded", function () {
-          window.netlifyIdentity.on("init", (user) => {
-            if (!user) {
-              window.netlifyIdentity.open("signup");
-            }
-          });
-          window.netlifyIdentity.init();
-        });
-      }
+        identity.init();
+      });
     </script>
   </body>
-</html>
+</html>           
