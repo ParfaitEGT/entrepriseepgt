@@ -7,7 +7,7 @@
     <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Scripts Netlify Identity & CMS -->
+    <!-- Netlify Identity & CMS scripts -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
@@ -20,26 +20,21 @@
           return;
         }
 
-        // Initialisation de Netlify Identity
-        identity.init();
-
-        // Gérer la session
         identity.on("init", (user) => {
           if (!user) {
-            // Si pas connecté, forcer l’inscription
-            identity.open("signup");
+            // Laisser l'utilisateur choisir entre se connecter ou s'inscrire
+            identity.open(); // ouvre la fenêtre avec choix Sign in / Sign up
           } else {
-            // Rediriger vers le CMS si déjà connecté
+            // Rediriger si déjà connecté
             window.location.href = "/admin/";
           }
         });
 
-        // Rediriger après connexion
         identity.on("login", () => {
           window.location.href = "/admin/";
         });
 
-        // Gérer automatiquement les liens d'invitation
+        // Gérer les invitations (si jamais un lien avec token est utilisé)
         const url = new URL(window.location.href);
         const inviteToken = url.hash.match(/invite_token=([^&]+)/);
         if (inviteToken && inviteToken[1]) {
@@ -47,7 +42,9 @@
             .then(() => identity.open())
             .catch((err) => console.error("Erreur d'invitation :", err));
         }
+
+        identity.init();
       });
     </script>
   </body>
-      </html>
+</html>
