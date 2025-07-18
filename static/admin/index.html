@@ -2,57 +2,40 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Admin | Service EPGT</title>
+    <title>Admin | EPGT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Scripts Netlify Identity + Netlify CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const identity = window.netlifyIdentity;
-
-        if (!identity) {
-          console.error("⚠️ Netlify Identity n’est pas chargé.");
-          return;
-        }
-
-        // Gestion des événements
-        identity.on("init", (user) => {
-          // Ouvre TOUJOURS l'interface d’authentification,
-          // même si un utilisateur est déjà connecté
-          identity.open();
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user) => {
+          if (!user) {
+            // Afficher la modal avec Login/Sign Up
+            window.netlifyIdentity.open(); 
+          }
         });
 
-        identity.on("login", () => {
-          // Redirection vers le CMS après connexion
+        // Redirection après login
+        window.netlifyIdentity.on("login", () => {
           document.location.href = "/admin/";
         });
 
-        identity.on("signup", () => {
-          // Redirection ou action personnalisée après inscription si besoin
-          console.log("🟢 Nouvel utilisateur inscrit");
-        });
-
-        identity.on("logout", () => {
-          console.log("🔴 Déconnexion réussie");
-        });
-
-        // Gestion d’un lien d’invitation (optionnel)
+        // Gestion des invitations (si jamais)
         const url = new URL(window.location.href);
         const inviteToken = url.hash.match(/invite_token=([^&]+)/);
         if (inviteToken && inviteToken[1]) {
-          identity.acceptInvite({ invite_token: inviteToken[1] })
-            .then(() => identity.open())
-            .catch((err) => console.error("❌ Erreur invitation :", err));
+          window.netlifyIdentity.acceptInvite({ invite_token: inviteToken[1] })
+            .then(() => window.netlifyIdentity.open())
+            .catch((err) => console.error("Erreur d’invitation :", err));
         }
 
-        // Initialiser Identity
-        identity.init();
-      });
+        // Initialisation
+        window.netlifyIdentity.init();
+      }
     </script>
   </body>
 </html>
