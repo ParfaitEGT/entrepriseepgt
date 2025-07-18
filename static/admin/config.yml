@@ -4,9 +4,8 @@ backend:
   repo: ParfaitEGT/siteepgteleventy
   site_domain: siteepgteleventy.netlify.app
 
-site_url: https://siteepgteleventy.netlify.app
 local_backend: true
-
+site_url: https://siteepgteleventy.netlify.app
 locale: 'fr'
 
 media_folder: "images"
