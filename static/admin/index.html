@@ -7,7 +7,7 @@
     <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Netlify Identity & CMS scripts -->
+    <!-- Netlify Identity & CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
@@ -16,13 +16,14 @@
         const identity = window.netlifyIdentity;
 
         if (!identity) {
-          console.error("Netlify Identity non chargé.");
+          console.error("Netlify Identity non chargé");
           return;
         }
 
         identity.on("init", (user) => {
           if (!user) {
-            identity.open(); // Affiche le widget avec Login & Signup
+            // L'utilisateur choisira login ou signup
+            identity.open(); // Affiche la modale Login / Sign up
           } else {
             document.location.href = "/admin/";
           }
@@ -32,16 +33,16 @@
           document.location.href = "/admin/";
         });
 
-        // Gérer le token d'invitation dans l'URL (au cas où)
-        const url = new URL(window.location.href);
-        const token = url.hash.match(/invite_token=([^&]+)/);
-        if (token && token[1]) {
-          identity.acceptInvite({ invite_token: token[1] })
-            .then(() => identity.open())
-            .catch((err) => console.error("Erreur d'invitation :", err));
-        }
-
         identity.init();
+
+        // Gérer un lien d'invitation éventuel
+        const url = new URL(window.location.href);
+        const inviteToken = url.hash.match(/invite_token=([^&]+)/);
+        if (inviteToken && inviteToken[1]) {
+          identity.acceptInvite({ invite_token: inviteToken[1] })
+            .then(() => identity.open())
+            .catch((err) => console.error("Erreur d’invitation :", err));
+        }
       });
     </script>
   </body>
