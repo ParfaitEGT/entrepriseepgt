@@ -1,0 +1,27 @@
+# Dossier de build Eleventy
+_site/
+
+# Dépendances Node.js
+node_modules/
+
+# Fichiers système inutiles
+.DS_Store
+Thumbs.db
+*.log
+
+# Environnement local
+.env
+.env.local
+
+# Backup ou temporaires
+*.bak
+*.tmp
+*.swp
+
+# fichiers Netlify spécifiques
+.netlify/
+.cache/
+
+# VSCode ou autres IDE
+.vscode/
+.idea/

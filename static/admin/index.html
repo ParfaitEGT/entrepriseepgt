@@ -22,8 +22,23 @@
 
         identity.on("init", (user) => {
           if (!user) {
-            // L'utilisateur choisira login ou signup
-            identity.open(); // Affiche la modale Login / Sign up
+            // On vérifie la présence d'un token d'invitation dans l'URL
+            const url = new URL(window.location.href);
+            const inviteToken = url.hash.match(/invite_token=([^&]+)/);
+
+            if (inviteToken && inviteToken[1]) {
+              // Accepter l'invitation automatiquement et ouvrir la modale
+              identity.acceptInvite({ invite_token: inviteToken[1] })
+                .then(() => identity.open())
+                .catch((err) => {
+                  console.error("Erreur d’invitation :", err);
+                  // Si erreur, on affiche la modale login seulement
+                  identity.open("login");
+                });
+            } else {
+              // Pas de token, on affiche que le login (pas d'inscription)
+              identity.open("login");
+            }
           } else {
             document.location.href = "/admin/";
           }
@@ -34,15 +49,6 @@
         });
 
         identity.init();
-
-        // Gérer un lien d'invitation éventuel
-        const url = new URL(window.location.href);
-        const inviteToken = url.hash.match(/invite_token=([^&]+)/);
-        if (inviteToken && inviteToken[1]) {
-          identity.acceptInvite({ invite_token: inviteToken[1] })
-            .then(() => identity.open())
-            .catch((err) => console.error("Erreur d’invitation :", err));
-        }
       });
     </script>
   </body>

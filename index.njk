@@ -2,12 +2,19 @@
 layout: layout.njk
 title: Accueil
 permalink: "/index.html"
-data:
-  accueil: content.accueil
 ---
 
-<header>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header>
   <div class="header-container">
     <img src="/images/logo.ico" alt="Service EPGT" class="logo">
     <nav>
@@ -24,19 +31,21 @@ data:
   </div>
 </header>
 
-<section id="articles">
-  <h2>Nos derniers articles</h2>
-  <div class="articles-container">
-    {% for article in collections.articles %}
-      <div class="article-card">
-        <h3>{{ article.data.title }}</h3>
-        <p>{{ article.date | date("dd/LL/yyyy") }}</p>
-        <p>{{ article.templateContent | striptags | truncate(120, true, "...") }}</p>
-        <a href="{{ article.url }}">Lire plus</a>
-      </div>
-    {% endfor %}
-  </div>
-</section>
+<main>
+  <section id="articles">
+    <h2>Nos derniers articles</h2>
+    <div class="articles-container">
+      {% for article in collections.articles %}
+        <div class="article-card">
+          <h3>{{ article.data.title }}</h3>
+          <p>{{ article.date | date("dd/LL/yyyy") }}</p>
+          <p>{{ article.templateContent | striptags | truncate(120, true, "...") }}</p>
+          <a href="{{ article.url }}">Lire plus</a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
 
 <footer>
   <div class="footer-container">
@@ -50,3 +59,6 @@ data:
     </nav>
   </div>
 </footer>
+
+</body>
+</html>
