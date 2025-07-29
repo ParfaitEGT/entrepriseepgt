@@ -15,6 +15,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addCollection("articles", (collection) => {
     return collection.getFilteredByGlob("articles/*.md").reverse();
   });
+eleventyConfig.addGlobalData("content", () => {
+  return {
+    accueil: require('./content/accueil.md'),
+    apropos: require('./content/a-propos.md')
+  };
+});
 
   // Filtre date avec Luxon
   eleventyConfig.addFilter("date", (dateObj, format = "dd/LL/yyyy") => {
