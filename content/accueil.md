@@ -5,4 +5,8 @@ presentation: "Nous offrons des services professionnels pour particuliers et ent
 texte_bouton: "Découvrir nos services"
 ---
 
-Bienvenue sur notre site.
+Bienvenue sur notre site officiel EPGT.
+
+Nous sommes spécialisés dans le froid et la climatisation.
+
+N'hésitez pas à parcourir nos services.
