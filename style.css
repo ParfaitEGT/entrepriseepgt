@@ -150,3 +150,11 @@ form button {
 form button:hover {
   background: #003060;
 }
+/* Sticky header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #004080;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}

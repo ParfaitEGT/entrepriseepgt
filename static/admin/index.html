@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Admin | Service EPGT</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/static/admin/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/admin/favicon.ico" type="image/x-icon" />
   </head>
   <body>
     <!-- Netlify Identity & CMS -->
@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", () => {
         const identity = window.netlifyIdentity;
 
         if (!identity) {
@@ -21,25 +21,11 @@
         }
 
         identity.on("init", (user) => {
+          // Ici on suppose que la validation d’invitation se fait via /confirmation
           if (!user) {
-            // On vérifie la présence d'un token d'invitation dans l'URL
-            const url = new URL(window.location.href);
-            const inviteToken = url.hash.match(/invite_token=([^&]+)/);
-
-            if (inviteToken && inviteToken[1]) {
-              // Accepter l'invitation automatiquement et ouvrir la modale
-              identity.acceptInvite({ invite_token: inviteToken[1] })
-                .then(() => identity.open())
-                .catch((err) => {
-                  console.error("Erreur d’invitation :", err);
-                  // Si erreur, on affiche la modale login seulement
-                  identity.open("login");
-                });
-            } else {
-              // Pas de token, on affiche que le login (pas d'inscription)
-              identity.open("login");
-            }
+            identity.open("login"); // Affiche la modale login
           } else {
+            // Utilisateur connecté → redirige vers admin dashboard
             document.location.href = "/admin/";
           }
         });

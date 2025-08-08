@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header>
+    <header id="site-header">
       <h1>{{ accueil.titre }}</h1>
       <h2>{{ accueil.sous_titre }}</h2>
       <p>{{ accueil.presentation }}</p>
@@ -17,5 +17,31 @@
       {{ content | safe }}
     </main>
 
+    <!-- Script Netlify Identity global -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          // Si l'utilisateur n'est pas connecté après invitation
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+
+    <!-- Optionnel : rendre le header sticky -->
+    <style>
+      #site-header {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1000;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+    </style>
   </body>
 </html>
