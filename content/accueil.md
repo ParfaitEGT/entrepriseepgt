@@ -5,4 +5,4 @@ presentation: "Nous offrons des services professionnels pour particuliers et ent
 texte_bouton: "Découvrir nos services"
 ---
 
-Contenu principal de la page d'accueil ici...
+Bienvenue sur notre site.
