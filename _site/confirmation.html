@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Confirmation d'inscription</title>
+</head>
+<body>
+  <h1>Confirmation en cours...</h1>
+  <p>Merci de patienter, votre compte est en cours d'activation.</p>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        } else {
+          document.location.href = "/admin/";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+backend:
+  name: git-gateway
+  branch: main
+  repo: ParfaitEGT/entrepriseepgt
+  site_domain: entrepriseepgt.netlify.app
+
+local_backend: false
+site_url: https://entrepriseepgt.netlify.app
+display_url: https://entrepriseepgt.netlify.app
+locale: 'fr'
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    folder: "articles"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Contenu", name: "body", widget: "markdown" }
+
+  - name: "accueil"
+    label: "Page d'accueil"
+    files:
+      - label: "Contenu d'accueil"
+        name: "contenu_accueil"
+        file: "content/accueil.json"
+        fields:
+          - { label: "Titre principal", name: "titre", widget: "string" }
+          - { label: "Sous-titre", name: "sous_titre", widget: "string" }
+          - { label: "Texte de présentation", name: "presentation", widget: "text" }
+          - { label: "Texte du bouton", name: "texte_bouton", widget: "string" }
+
+  - name: "services"
+    label: "Nos services"
+    files:
+      - label: "Contenu services"
+        name: "contenu_services"
+        file: "content/services.json"
+        fields:
+          - { label: "Titre de la section", name: "titre", widget: "string" }
+          - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Liste des services"
+            name: "liste"
+            widget: "list"
+            fields:
+              - { label: "Nom du service", name: "nom", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
+  - name: "a_propos"
+    label: "Page À propos"
+    files:
+      - label: "Contenu À propos"
+        name: "contenu_a_propos"
+        file: "content/a-propos.json"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Texte", name: "texte", widget: "markdown" }
+
+  - name: "contact"
+    label: "Page Contact"
+    files:
+      - label: "Contenu de la page Contact"
+        name: "contenu_contact"
+        file: "content/contact.json"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+
+  - name: "contact_success"
+    label: "Page de Confirmation"
+    files:
+      - label: "Message de Confirmation"
+        name: "message_confirmation"
+        file: "content/contact-success.json"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Contenu", name: "body", widget: "markdown", required: false }
