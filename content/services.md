@@ -1,21 +1,11 @@
----
-layout: layout.njk
-title: Nos services
-permalink: "/services/index.html"
-data:
-  services: content.services
----
-
-<section class="services-section">
-  <h2>{{ services.titre }}</h2>
-  <p>{{ services.intro }}</p>
-
-  <div class="services-container">
-    {% for service in services.liste %}
-      <div class="service-card">
-        <h3>{{ service.nom }}</h3>
-        <p>{{ service.description }}</p>
-      </div>
-    {% endfor %}
-  </div>
-</section>
+titre: "Nos services"
+intro: "Découvrez notre large gamme de services adaptés aux particuliers comme aux entreprises."
+liste:
+  - nom: "Installation de climatiseurs"
+    description: "Installation professionnelle de climatiseurs split et centraux."
+  - nom: "Maintenance & dépannage"
+    description: "Entretien régulier et interventions rapides sur vos équipements."
+  - nom: "Conception de sites web"
+    description: "Sites vitrines, dynamiques ou administrables pour booster votre visibilité."
+  - nom: "Formation en froid et numérique"
+    description: "Formations pratiques en froid, climatisation et outils numériques."

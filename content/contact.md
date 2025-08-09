@@ -2,8 +2,6 @@
 layout: layout.njk
 title: Contact
 permalink: "/contact/index.html"
-data:
-  contact: content.contact
 ---
 
 <section>
