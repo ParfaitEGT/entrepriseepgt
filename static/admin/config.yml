@@ -3,6 +3,7 @@ backend:
   branch: main
 
 local_backend: false
+
 site_url: https://entrepriseepgt.netlify.app
 display_url: https://entrepriseepgt.netlify.app
 locale: 'fr'
