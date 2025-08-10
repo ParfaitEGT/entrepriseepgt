@@ -1,18 +1,79 @@
 backend:
   name: git-gateway
-  branch: main   # branche GitHub où se trouvent tes fichiers contenus (change si besoin)
+  branch: main
 
-media_folder: "static/uploads"  # dossier pour stocker les médias uploadés
-public_folder: "/uploads"       # chemin public des médias
+local_backend: false
+site_url: https://entrepriseepgt.netlify.app
+display_url: https://entrepriseepgt.netlify.app
+locale: 'fr'
 
-site_url: "https://ton-site.netlify.app"  # remplace par ton URL Netlify
+media_folder: "images"
+public_folder: "/images"
 
 collections:
-  - name: "pages"
-    label: "Pages"
-    folder: "datacontent"
+  - name: "articles"
+    label: "Articles"
+    folder: "articles"
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Contenu", name: "body", widget: "markdown" }
+
+  - name: "accueil"
+    label: "Page d'accueil"
+    files:
+      - label: "Contenu d'accueil"
+        name: "contenu_accueil"
+        file: "datacontent/accueil.md"
+        fields:
+          - { label: "Titre principal", name: "titre", widget: "string" }
+          - { label: "Sous-titre", name: "sous_titre", widget: "string" }
+          - { label: "Texte de présentation", name: "presentation", widget: "text" }
+          - { label: "Texte du bouton", name: "texte_bouton", widget: "string" }
+
+  - name: "services"
+    label: "Nos services"
+    files:
+      - label: "Contenu services"
+        name: "contenu_services"
+        file: "datacontent/services.json"
+        fields:
+          - { label: "Titre de la section", name: "titre", widget: "string" }
+          - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Liste des services"
+            name: "liste"
+            widget: "list"
+            fields:
+              - { label: "Nom du service", name: "nom", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
+  - name: "a_propos"
+    label: "Page À propos"
+    files:
+      - label: "Contenu À propos"
+        name: "contenu_a_propos"
+        file: "datacontent/a-propos.md"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Texte", name: "texte", widget: "markdown" }
+
+  - name: "contact"
+    label: "Page Contact"
+    files:
+      - label: "Contenu de la page Contact"
+        name: "contenu_contact"
+        file: "datacontent/contact.md"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+
+  - name: "contact_success"
+    label: "Page de Confirmation"
+    files:
+      - label: "Message de Confirmation"
+        name: "message_confirmation"
+        file: "datacontent/contact-success.md"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Contenu", name: "body", widget: "markdown", required: false }
