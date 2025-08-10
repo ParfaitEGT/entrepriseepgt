@@ -1,65 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
   <title>Administration EPGT</title>
-  <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^2.0/dist/netlify-cms.css" />
-  <style>
-    body {
-      background: #f5f7fa;
-    }
-    .custom-login {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-    .custom-login h1 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .custom-login button {
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #00ad9f;
-      color: white;
-      transition: background 0.3s;
-    }
-    .custom-login button:hover {
-      background: #008c81;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Chargement de Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms-app@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
-  <div id="custom-login" class="custom-login">
-    <h1>Accès à l'administration</h1>
-    <button onclick="login()">S’inscrire / Se connecter</button>
-  </div>
-
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/netlify-cms@^2.0/dist/netlify-cms.js"></script>
   <script>
-    function login() {
-      netlifyIdentity.open();
-    }
-
-    // Quand l'utilisateur se connecte, on affiche directement le CMS
-    netlifyIdentity.on('login', () => {
-      document.getElementById('custom-login').style.display = 'none';
-      CMS.init();
-    });
-
-    // Si déjà connecté, on ouvre le CMS directement
-    if (netlifyIdentity.currentUser()) {
-      document.getElementById('custom-login').style.display = 'none';
-      CMS.init();
-    }
+    CMS.init();
   </script>
 </body>
 </html>

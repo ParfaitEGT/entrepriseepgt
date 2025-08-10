@@ -1,4 +1,4 @@
-module.exports = function(eleventyConfig) {
+ module.exports = function(eleventyConfig) {
   // Permet d'utiliser le dossier datacontent au lieu de content
   eleventyConfig.addPassthroughCopy("static");
 
