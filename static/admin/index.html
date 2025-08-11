@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <title>Administration EPGT</title>
@@ -8,8 +8,11 @@
   <script src="https://unpkg.com/netlify-cms-app@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
+  <!-- Le CMS sera monté ici -->
   <script>
-    CMS.init();
+    CMS.init({
+      configPath: 'config.yml' // Charge automatiquement le fichier de config
+    });
   </script>
 </body>
 </html>
