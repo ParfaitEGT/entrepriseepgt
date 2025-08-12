@@ -1,11 +1,16 @@
-{
-  "name": "site-epgt",
+﻿{
+  "name": "entrepriseepgt",
   "version": "1.0.0",
+  "description": "Site Eleventy + Netlify CMS pour entrepriseepgt",
+  "main": "index.js",
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy"
   },
-  "dependencies": {
-    "@11ty/eleventy": "^3.1.2"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0"
   }
 }

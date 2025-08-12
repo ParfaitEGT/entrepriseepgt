@@ -1,15 +1,13 @@
- module.exports = function(eleventyConfig) {
-  // Permet d'utiliser le dossier datacontent au lieu de content
-  eleventyConfig.addPassthroughCopy("static");
+﻿module.exports = function(eleventyConfig) {
+  // Ignorer la surveillance du fichier config.yml du CMS
+  eleventyConfig.ignores.add("static/admin/config.yml");
+
+  // Autres configurations possibles
 
   return {
     dir: {
       input: ".",
-      includes: "_includes",
-      data: "datacontent",  // IMPORTANT : dossier des données
       output: "_site"
-    },
-    markdownTemplateEngine: "njk",
-    htmlTemplateEngine: "njk",
+    }
   };
 };
